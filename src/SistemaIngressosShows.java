@@ -85,7 +85,7 @@ public class SistemaIngressosShows {
     System.out.printf("Total de vendas: R$ %.2f\n", 
              controller.calcularTotalCompras());
                          
-    System.out.println("\n--- Estoque atual Pista (deve ser 85) ---");
+    System.out.println("\n--- Estoque atual Pista (deve ser 95) ---");
     System.out.println(ingressoService.getIngresso("Pista").get());
 
 
