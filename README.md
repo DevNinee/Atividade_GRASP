@@ -150,10 +150,9 @@ Obrigado por usar o sistema! Até a próxima!
 ```
 Tecnologias Utilizadas
 
- Java 8+
- Paradigma de Orientação a Objetos (OO)
- Padrões GRASP
- Execução via terminal
-
+ Java 8+ , 
+ Paradigma de Orientação a Objetos (OO) , 
+ Padrões GRASP.
+ 
  Autores
  Fabiana Souza e Erick Ferreira
