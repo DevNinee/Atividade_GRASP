@@ -1,5 +1,4 @@
 
-
 # Sistema de Vendas de Ingressos — Padrões GRASP
 
 Atividade prática de aplicação dos padrões GRASP em Java.
@@ -111,7 +110,7 @@ Aqui está a explicação objetiva, clara e específica sobre onde cada padrão 
 ##  Exemplos de Execução
 
 **1) Listar ingressos**
-```bash
+```
 --- INGRESSOS DISPONÍVEIS ---
 1. VIP - R$ 150.00 (Estoque: 20)
 2. Pista - R$ 80.00 (Estoque: 50)
@@ -127,39 +126,34 @@ Ingresso: VIP
 Quantidade: 2
 Total: R$ 300.00
 3) Estoque insuficiente
-Bash
 
 Digite o número do ingresso que deseja comprar: 3
 Quantidade: 20
 
 Estoque insuficiente! Apenas 10 disponíveis.
 4) Sair
-Bash
 
 Obrigado por usar o sistema! Até a próxima!
 
 
  Como Executar
 
-1. Clone o repositório: Bash  git clone [https://github.com/DevNinee/Atividade_GRASP.git](https://github.com/DevNinee/Atividade_GRASP.git)
+1. Clone o repositório: https://github.com/DevNinee/Atividade_GRASP.git](https://github.com/DevNinee/Atividade_GRASP.git
 2.    
-3. Navegue até o diretório do projeto: Bash  cd Atividade_GRASP
+3. Navegue até o diretório do projeto: cd Atividade_GRASP
 4.    
-5. Compile os arquivos Java: Bash  javac src/*.java
+5. Compile os arquivos Java: javac src/*.java
 6.    
-7. Execute a classe principal: Bash  java src/Main
+7. Execute a classe principal: java src/Main
 8.     (Caso a pasta do projeto use outro layout, adapte os comandos conforme necessário.)
 
+```
+Tecnologias Utilizadas
 
- Tecnologias Utilizadas
-
-* Java 8+
-* Paradigma de Orientação a Objetos (OO)
-* Padrões GRASP
-* Execução via terminal
-
+ Java 8+
+ Paradigma de Orientação a Objetos (OO)
+ Padrões GRASP
+ Execução via terminal
 
  Autores
-
-* Fabiana Souza
-* Erick Ferreira
+ Fabiana Souza e Erick Ferreira
