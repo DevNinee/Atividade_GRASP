@@ -1,7 +1,4 @@
 package com.example;
-// ============================================
-// ARQUIVO: SistemaIngressosShows.java
-// ============================================
 
 import com.example.controller.CompraController;
 import com.example.model.Cliente;
