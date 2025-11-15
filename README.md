@@ -1,158 +1,133 @@
-
 # Sistema de Vendas de Ingressos — Padrões GRASP
 
 Atividade prática de aplicação dos padrões GRASP em Java.
 
-Este projeto apresenta um sistema simples para vendas de ingressos de shows, implementado em Java e estruturado com padrões GRASP para garantir melhor organização, clareza, manutenibilidade e evolução do código.
+Esse é um projeto didática de um sistema de vendas de ingressos para shows, estruturado para demonstrar decisões de design baseadas em GRASP (Information Expert, Creator, Controller, Indirection, Low Coupling, High Cohesion).
 
-##  Índice
+## Índice
 
-* [Funcionalidades do Sistema](#-funcionalidades-do-sistema)
-* [Estrutura das Classes](#%EF%B8%8F-estrutura-das-classes)
-* [Padrões GRASP Aplicados](#-padrões-grasp-aplicados)
-    * [Information Expert](#%EF%B8%8F-1-information-expert-especialista)
-    * [Creator](#%EF%B8%8F-2-creator-criador)
-    * [Controller](#%EF%B8%8F-3-controller)
-    * [Low Coupling](#%EF%B8%8F-4-low-coupling-baixo-acoplamento)
-    * [High Cohesion](#%EF%B8%8F-5-high-cohesion-alta-coesão)
-    * [Polymorphism](#%EF%B8%8F-6-polymorphism-polimorfismo)
-    * [Indirection](#%EF%B8%8F-7-indirection-indireção)
-* [Exemplos de Execução](#-exemplos-de-execução)
-* [Como Executar](#-como-executar)
-* [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-* [Autores](#-autores)
+- [Funcionalidades do Sistema](#funcionalidades-do-sistema)
+- [Visão Geral das Classes](#visão-geral-das-classes)
+- [Padrões GRASP Aplicados](#padrões-grasp-aplicados)
+- [Exemplos de Execução](#exemplos-de-execução)
+- [Como Executar e Testar](#como-executar-e-testar)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Autores](#autores)
 
 ---
 
-##  Funcionalidades do Sistema
+## Funcionalidades do Sistema
 
-* Cadastro e gerenciamento de diferentes tipos de ingressos (VIP, Pista, Camarote etc.)
-* Controle de estoque de ingressos
-* Registro de vendas
-* Interface simples pelo terminal
-* Aplicação prática dos padrões GRASP (Specialist, Creator, Controller, Polymorphism, Low Coupling, High Cohesion etc.)
-
----
-
-##  Estrutura das Classes (Visão Geral)
-
-* **`Ingresso`**: Representa um tipo de ingresso. Guarda nome, preço e estoque. Aplica **GRASP Information Expert** ao encapsular os dados do ingresso.
-* **`Venda`**: Registra uma venda realizada. Aplica **GRASP Creator**, pois é responsável por criar objetos relacionados a uma venda.
-* **`VendaController`**: Coordena a lógica das transações. Aplica **GRASP Controller**, centralizando o fluxo da aplicação.
-* **`LojaIngressos`**: Contém o "catálogo" de ingressos. Aplica **Low Coupling** e **High Cohesion** ao manter suas responsabilidades bem definidas.
-* **`Main`**: Ponto de entrada da aplicação. Apenas delega tarefas ao controller (boa prática de Controller + Low Coupling).
+- Cadastro e listagem de ingressos (tipos: Camarote, VIP, Pista)
+- Controle simples de estoque
+- Registro de compras (vendas)
+- Fluxo de compra demonstrativo pelo terminal
 
 ---
 
-##  Padrões GRASP Aplicados
+## Visão Geral das Classes
 
-Aqui está a explicação objetiva, clara e específica sobre onde cada padrão aparece no projeto:
+- `com.example.model.Ingresso` — representa um tipo de ingresso (nome, preço, quantidade disponível).
+- `com.example.model.Compra` / `ItemCompra` — agregam itens e calculam totais.
+- `com.example.controller.CompraController` — orquestra fluxos de compra e interação entre services/repositories.
+- `com.example.repository.*Repository` — classes de persistência em memória (Maps) para clientes, ingressos e compras.
+- `com.example.service.*Service` — camada de serviço que encapsula operações e usa os repositórios.
+- `com.example.SistemaIngressosShows` — classe de execução/demonstração (main) que simula compras com dados de exemplo.
 
-###  1. Information Expert (Especialista)
-> **Definição:** A responsabilidade deve ser atribuída à classe que possui a informação necessária.
-
-* **Onde foi aplicado:**
-    * `Classe Ingresso`: Ela própria controla nome, preço, estoque e métodos como `reduzirEstoque()` e `validarEstoque()`.
-    * `Classe Venda`: Guarda informações da venda (tipo, quantidade, valor total, data).
-* **Por que?** Essas classes possuem naturalmente os dados necessários para realizar suas responsabilidades — seguindo o GRASP.
-
-###  2. Creator (Criador)
-> **Definição:** A classe que possui ou usa muitos objetos de um tipo deve ser responsável por criá-los.
-
-* **Onde foi aplicado:**
-    * `Classe LojaIngressos`: Cria e registra os ingressos disponíveis na loja.
-    * `Classe VendaController`: Cria objetos `Venda` quando o cliente realiza uma compra.
-* **Por que?** Essas classes têm dependências diretas com os objetos criados, sendo os melhores candidatos para criá-los.
-
-###  3. Controller
-> **Definição:** O Controlador deve lidar com os eventos externos e a coordenação de ações do sistema.
-
-* **Onde foi aplicado:**
-    * `Classe VendaController`: Recebe a ação do usuário (“comprar ingresso”), verifica estoque, solicita atualização ao `Ingresso` e registra a `Venda`.
-* **Por que?** Mantém o código organizado, evitando lógica pesada na classe `Main` e separando responsabilidades.
-
-###  4. Low Coupling (Baixo Acoplamento)
-> **Definição:** Minimizar dependências entre classes.
-
-* **Onde foi aplicado:**
-    * `Main` não sabe nada sobre lógica interna: delega tudo para o `VendaController`.
-    * `Venda` não depende de implementação de estoque; apenas recebe dados já processados.
-    * `LojaIngressos` apenas gerencia ingressos, sem depender do controller.
-* **Por que?** Isso deixa o sistema mais flexível e fácil de alterar.
-
-###  5. High Cohesion (Alta Coesão)
-> **Definição:** Cada classe deve ter responsabilidades claras e bem definidas.
-
-* **Onde foi aplicado:**
-    * `Ingresso`: Somente dados e regras do ingresso.
-    * `Venda`: Somente dados de venda.
-    * `LojaIngressos`: Somente catálogo.
-    * `VendaController`: Somente a lógica de venda.
-    * `Main`: Apenas menus e interação simples.
-* **Por que?** Evita classes gigantes com funções demais (“God class”).
-
-###  6. Polymorphism (Polimorfismo)
-> **Definição:** Usado quando há comportamentos variáveis que podem ser abstraídos por interfaces ou classes pai.
-
-* **Onde foi aplicado:**
-    * Na estrutura que permite criar diferentes tipos de ingressos. Se no futuro for criado `IngressoVIP` ou `IngressoMeiaEntrada`, basta herdar de `Ingresso`.
-* **Por que?** O sistema foi preparado para expansão, mesmo ainda usando uma classe única.
-
-###  7. Indirection (Indireção)
-> **Definição:** Criar uma classe intermediária para reduzir acoplamento entre dois módulos.
-
-* **Onde foi aplicado:**
-    * `VendaController` funciona como intermediário entre `Main` e `LojaIngressos`.
-* **Por que?** Assim `Main` não precisa conhecer detalhes sobre estoque, regras ou validações.
+Para explicações estendidas sobre por que cada padrão GRASP foi usado, veja `PATTERNS.md` na raiz do projeto.
 
 ---
 
-##  Exemplos de Execução
+## Padrões GRASP Aplicados
 
-**1) Listar ingressos**
-```
---- INGRESSOS DISPONÍVEIS ---
-1. VIP - R$ 150.00 (Estoque: 20)
-2. Pista - R$ 80.00 (Estoque: 50)
-3. Camarote - R$ 250.00 (Estoque: 10)
-2) Comprar ingresso
-Bash
+Resumo rápido (veja `PATTERNS.md` para detalhes e exemplos de código):
 
-Digite o número do ingresso que deseja comprar: 1
-Quantidade: 2
+- Information Expert: responsabilidade de cálculo e validação alocada às entidades do domínio (`Compra`, `Ingresso`).
+- Creator: objetos do domínio são criados por classes que têm os dados necessários (`CompraController`, services).
+- Controller: `CompraController` recebe operações de alto nível e coordena serviços e repositórios.
+- Indirection / Pure Fabrication: repositórios em memória isolam a lógica de persistência do domínio.
+- Low Coupling e High Cohesion: camadas separadas (`controller` / `service` / `repository` / `model`) e classes com responsabilidades claras.
 
-Compra realizada com sucesso!
-Ingresso: VIP
-Quantidade: 2
-Total: R$ 300.00
-3) Estoque insuficiente
+---
 
-Digite o número do ingresso que deseja comprar: 3
-Quantidade: 20
+## Exemplos de Execução
 
-Estoque insuficiente! Apenas 10 disponíveis.
-4) Sair
+O `SistemaIngressosShows` já contém um fluxo de demonstração com dados de exemplo (clientes e compras). A execução produz mensagens de: listagem de ingressos, fluxo de compra para duas compras de exemplo, resumo de vendas e atualização de estoque.
 
-Obrigado por usar o sistema! Até a próxima!
-
-
- Como Executar
-
-1. Clone o repositório: https://github.com/DevNinee/Atividade_GRASP.git](https://github.com/DevNinee/Atividade_GRASP.git
-2.    
-3. Navegue até o diretório do projeto: cd Atividade_GRASP
-4.    
-5. Compile os arquivos Java: javac src/*.java
-6.    
-7. Execute a classe principal: java src/Main
-8.     (Caso a pasta do projeto use outro layout, adapte os comandos conforme necessário.)
+Trecho representativo da saída de demonstração:
 
 ```
-Tecnologias Utilizadas
+SISTEMA DE VENDAS DE INGRESSOS — Aplicando Padrões GRASP
 
- Java 8+ , 
- Paradigma de Orientação a Objetos (OO) , 
- Padrões GRASP.
- 
- Autores
- Fabiana Souza e Erick Ferreira
+--- 1. CRUD de Ingressos ---
+
+[READ] Ingressos disponíveis:
+Ingresso [Camarote] R$ 380,00 - Disponível: 20
+Ingresso [VIP] R$ 220,00 - Disponível: 40
+Ingresso [Pista] R$ 120,00 - Disponível: 100
+
+=== NOVA COMPRA INICIADA ===
+Número: C0001
+Cliente: Ana Souza
+-> Item adicionado com sucesso!
+-> Compra registrada no sistema!
+
+=== COMPRAS REALIZADAS ===
+... (resumo e total de vendas) ...
+
+FIM DA DEMONSTRAÇÃO
+```
+
+---
+
+## Como Executar e Testar
+
+Recomendo usar Maven (projeto já contém `pom.xml`) e JDK 17+. Alternativamente você pode compilar manualmente, mas o fluxo abaixo usa Maven.
+
+1) Entrar no diretório do projeto (onde está o `pom.xml`):
+
+```bash
+cd /caminho/para/Atividade_GRASP
+```
+
+2) Rodar os testes unitários (JUnit 5):
+
+```bash
+mvn -DskipTests=false test
+```
+
+3) Executar a demonstração (executa `com.example.SistemaIngressosShows`):
+
+```bash
+mvn -DskipTests=true compile exec:java -Dexec.mainClass=com.example.SistemaIngressosShows
+```
+
+Saída esperada: listagem de ingressos; duas compras de exemplo (C0001 e C0002) registradas; resumo financeiro com total de vendas (R$ 1580,00 no cenário de demonstração) e estoque atualizado.
+
+Se preferir executar sem Maven (compilação manual):
+
+```bash
+# compilar todas as classes Java (ajuste caminhos se necessário)
+javac -d out $(find src/main/java -name "*.java")
+# executar
+java -cp out com.example.SistemaIngressosShows
+```
+
+---
+
+## Tecnologias Utilizadas
+
+- Java 17
+- Maven
+- JUnit 5 (tests)
+- Padrões GRASP (documentação aplicada)
+
+---
+
+## Autores
+
+- Fabiana Souza
+- Erick Ferreira
+
+---
+
